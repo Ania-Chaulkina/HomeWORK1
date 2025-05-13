@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { MainPage, RegisterPage, UserBuilder, YourFeedPage , YourSettingsPage } from '../src/pages/index';
-
+import { MainPage, RegisterPage, YourFeedPage , YourSettingsPage } from '../src/pages/index';
+import { UserBuilder } from '../src/helpers/user.builders';
 
 test('Смена имени юзера', async ({page}) => {
     const mainPage = new MainPage(page);

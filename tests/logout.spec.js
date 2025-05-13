@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { MainPage, RegisterPage, UserBuilder, YourFeedPage, NavigationPage } from '../src/pages/index';
+import { MainPage, RegisterPage, YourFeedPage, NavigationPage } from '../src/pages/index';
+import { UserBuilder } from '../src/helpers/user.builders';
 
 test('Выход из учетной записи юзера', async ({page}) => {
     const mainPage = new MainPage(page);
