@@ -1,9 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { MainPage } from '../src/pages/main.page';
-import { RegisterPage } from '../src/pages/register.page';
-import { UserBuilder } from '../src/helpers/user.builders';
-import { YourFeedPage } from '../src/pages/yourfeed.page';
-import { GlobalFeedPage } from '../src/pages/globalfeed.page';
+import { MainPage, RegisterPage, UserBuilder, YourFeedPage, GlobalFeedPage } from '../src/pages/index';
 
 test.only('Проставить лайк статье из раздела Global Feed', async ({page}) => {
     const mainPage = new MainPage(page);
