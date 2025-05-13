@@ -1,21 +1,20 @@
 import { test, expect } from '@playwright/test';
-import { MainPage, RegisterPage, YourFeedPage, ArticleBuilder, NewArticlePage  } from '../src/pages/index';
+//import { MainPage, RegisterPage, YourFeedPage, ArticleBuilder, NewArticlePage  } from '../src/pages/index';
 import { UserBuilder } from '../src/helpers/user.builders';
+import { App } from '../src/pages/app.page'
 test('Создание статьи авторизованным пользователем', async ({page}) => {
-    const mainPage = new MainPage(page);
-	const registerPage = new RegisterPage(page);
-    const newArticlePage = new NewArticlePage(page);
-    const yourFeedPage = new YourFeedPage(page);
+
     const randomUser = new UserBuilder()
         .addEmail()
 		.addPassword()
 		.addUsername()
 		.generate();
 
-	await mainPage.open();
-	await mainPage.gotoLogin();
-	await registerPage.signUp(randomUser);
-	await expect(yourFeedPage.profileNameField).toContainText(randomUser.username);
+	let app = new App(page);
+    await app.main.open();
+    await app.main.gotoLogin();
+    await app.register.signUp(randomUser);
+    await expect(app.yourFeed.profileNameField).toContainText(randomUser.username);
 
     const randomArticle = new ArticleBuilder()
     .generateArticleTitle()
@@ -24,8 +23,8 @@ test('Создание статьи авторизованным пользов�
     .generateArticleTag()
     .generate();
 
-    await newArticlePage.open();
-    await newArticlePage.newArticle(randomArticle);
+    await app.newArticle.open();
+    await app.newArticle.newArticle(randomArticle);
     await expect(page.getByRole('button', { name: ' Delete Article' }).first()).toBeVisible();
 })
 

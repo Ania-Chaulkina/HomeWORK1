@@ -1,24 +1,21 @@
 import { test, expect } from '@playwright/test';
-import { MainPage, RegisterPage, YourFeedPage, NavigationPage } from '../src/pages/index';
+//import { MainPage, RegisterPage, YourFeedPage, ArticleBuilder, NewArticlePage  } from '../src/pages/index';
 import { UserBuilder } from '../src/helpers/user.builders';
+import { App } from '../src/pages/app.page'
 
-test('Выход из учетной записи юзера', async ({page}) => {
-    const mainPage = new MainPage(page);
-    const registerPage = new RegisterPage(page);
-    const yourFeedPage = new YourFeedPage(page);
+test.only('Выход из учетной записи юзера', async ({page}) => {
     const randomUser = new UserBuilder()
         .addEmail()
         .addPassword()
         .addUsername()
         .generate();
 
-    await mainPage.open();
-    await mainPage.gotoLogin();
-    await registerPage.signUp(randomUser);
-    await expect(yourFeedPage.profileNameField).toContainText(randomUser.username);
+    let app = new App(page);
+    await app.main.open();
+    await app.main.gotoLogin();
+    await app.register.signUp(randomUser);
+    await expect(app.yourFeed.profileNameField).toContainText(randomUser.username);
 
-    const navigationPage = new NavigationPage(page);
-
-    await navigationPage.clickLogoutButton();
+    await app.navigation.clickLogoutButton();
     await expect(page.getByRole('link', { name: ' Login' })).toBeVisible();
 })

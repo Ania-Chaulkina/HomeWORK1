@@ -1,24 +1,22 @@
 import { test, expect } from '@playwright/test';
 import { MainPage, RegisterPage, YourFeedPage, GlobalFeedPage } from '../src/pages/index';
 import { UserBuilder } from '../src/helpers/user.builders';
+import { App } from '../src/pages/app.page'
 
-test.only('Проставить лайк статье из раздела Global Feed', async ({page}) => {
-    const mainPage = new MainPage(page);
-    const registerPage = new RegisterPage(page);
-    const yourFeedPage = new YourFeedPage(page);
+test('Проставить лайк статье из раздела Global Feed', async ({page}) => {
     const randomUser = new UserBuilder()
         .addEmail()
         .addPassword()
         .addUsername()
         .generate();
 
-    await mainPage.open();
-    await mainPage.gotoLogin();
-    await registerPage.signUp(randomUser);
-    await expect(yourFeedPage.profileNameField).toContainText(randomUser.username);
+    let app = new App(page);
+    await app.main.open();
+    await app.main.gotoLogin();
+    await app.register.signUp(randomUser);
+    await expect(app.yourFeed.profileNameField).toContainText(randomUser.username);
 
-    const globalFeedPage = new GlobalFeedPage(page);
-    await globalFeedPage.open();
-    await globalFeedPage.likePost();
+    await app.globalFeed.open();
+    await app.globalFeed.likePost();
     await expect(page.getByRole('button', { name: ' ( 1 )' })).toBeVisible();
 })
