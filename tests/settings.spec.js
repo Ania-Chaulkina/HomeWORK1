@@ -13,7 +13,7 @@ test('Смена имени юзера', async ({page}) => {
     let app = new App(page);
 
     await app.main.open();
-    await app.main.gotoLogin();
+    await app.main.gotoSignUp();
     await app.register.signUp(randomUser);
     await expect(app.yourFeed.profileNameField).toContainText(randomUser.username);
 
